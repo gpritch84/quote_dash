@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>User Quotes</title>
+</head>
+
+<body>
+    <a href='/quotes' class='btn btn-primary d-flex justify-content-center col-1 m-3'>Home</a>
+    <a href='/logout' class='btn btn-danger d-flex justify-content-center col-1 m-3'>Log out</a>
+    <hr>
+
+    <div class='d-flex justify-content-around'>
+        <div id='col-4 my-5'>
+            <h1>{{user.first_name}} {{user.last_name}}'s Uploaded Quotes</h1>
+        </div>
+        <div id='col-4 my-5'></div>
+        {% for quotes in quote %}
+        {% if quotes.uploaded_by.id == user.id %}
+        <p><b>{{ quotes.author }}</b>: {{ quotes.quote }}</p>
+        {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>

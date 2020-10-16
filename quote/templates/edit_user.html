@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Edit My Account</title>
+</head>
+
+<body>
+    <h1 class='m-3'>Edit My Account</h1>
+    <a href='/logout' class='btn btn-danger d-flex justify-content-center col-1 m-3'>Log out</a>
+    <a href='/quotes' class='btn btn-primary d-flex justify-content-center col-1 m-3'>Home</a>
+    <hr>
+    <div class='d-flex justify-content-around'>
+
+        <div id='col-4 my-5'>
+            <form method='post' action='/update_user/{{user.id}}'>
+                {% csrf_token %}
+                <div class='form-group'>
+                    <label for='edit_first_name'>First Name:</label>
+                    <input type='text' id='edit_first_name' name='edit_first_name' class='form-control' value='{{user.first_name}}'><br>
+                </div>
+                <div class='form-group'>
+                    <label for='edit_last_name'>Last Name:</label>
+                    <input type='text' id='edit_last_name' name='edit_last_name' class='form-control' value='{{user.last_name}}'><br>
+                </div>
+                <div class='form-group'>
+                    <label for='edit_email'>Email:</label>
+                    <input type='text' id='edit_email' name='edit_email' class='form-control' value='{{user.email}}'><br>
+                </div>
+                <input type='submit' value='Update' class='btn btn-primary m-1'>
+            </form>
+        </div>
+        <div class='col-5 text-danger'>
+            {% for message in messages %}
+            <p {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

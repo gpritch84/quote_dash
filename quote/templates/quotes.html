@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <h1 class='m-3'>Welcome, {{user.first_name}}! You are logged in.</h1>
+    <a href='/logout' class='btn btn-danger d-flex justify-content-center col-1 m-3'>Log out</a>
+    <a href='/edit_account/{{user.id}}' class='btn-primary d-flex justify-content-center col-2 m-3 p-1'> Edit My Account</a>
+    <hr>
+
+    <div class='d-flex justify-content-around'>
+
+        <div id='col-4 my-5'>
+            <h1>Quotes</h1>
+            {% for quote in quotes %}
+            <p><b>{{quote.author}}</b>: {{ quote.quote }}</p>
+            <p><i>Posted by <a href='/user/{{quote.uploaded_by.id}}'></i>{{quote.uploaded_by.first_name}} {{quote.uploaded_by.last_name}}</a></p>
+            {% if quote.uploaded_by.id == user.id %}
+            <form method='post' action='/delete_quote/{{quote.id}}'>
+            {% csrf_token %}
+                <input type='submit' value='Delete Quote' class='btn btn-danger m-1'>
+            </form>
+            {% endif %}
+            <p>Likes: {{quote.users.count}}</p>
+            <a href='/like/{{quote.id}}/{{user.id}}' class='btn btn-success'>Like this quote</a>
+            {% endfor %}
+        </div>
+
+        <div id='col-4 my-5'>
+            <h1>Add a quote</h1>
+            <form method='post' action='/add_quote'>
+                {% csrf_token %}
+                <div class='form-group'>
+                    <label for='title'>Author:</label>
+                    <input type='text' id='author' name='author' class='form-control'><br>
+                </div>
+                <div class='form-group'>
+                    <label for='desc'>Quote:</label>
+                    <input type='text' id= 'quote' name='quote' class='form-control'><br>
+                </div>
+                <input type='submit' value='Add this quote!' class='btn btn-primary'>
+            </form>
+        </div>
+
+        <div class='text-danger'>
+            {% for message in messages %}
+            <p {% if message.tags %} class="{{message.tags}}" {% endif %}>{{message}}</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</body>
+
+</html>
